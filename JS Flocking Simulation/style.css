@@ -1,0 +1,13 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+canvas {
+  display: block;
+}
+
+th {
+	text-align: left;
+	padding-top: 12px;
+	padding-bottom: 3px;
+}
