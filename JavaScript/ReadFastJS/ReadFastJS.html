@@ -1,0 +1,124 @@
+<head>
+	<style>
+		.center {
+			margin: auto;
+			width: 50%;
+			border: 3px solid #888888;
+			padding: 0px;
+			text-align: center;
+			background-color: #000000;
+			color: #ffffff;
+		}
+		
+		.othercenter{
+			width:50%;
+			margin: auto;
+			padding:0px;
+			padding-top:5px;
+			text-align: center;
+		}
+		
+		.textcenter {
+			position: absolute;
+			top: -10px;
+			left: 50%;
+		}
+		
+
+		/* The slider itself */
+		.slider {
+		  -webkit-appearance: none;  /* Override default CSS styles */
+		  appearance: none;
+		  width: 100%; /* Full-width */
+		  margin:0px;
+		  height: 25px; /* Specified height */
+		  background: #d3d3d3; /* Grey background */
+		  outline: none; /* Remove outline */
+		  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+		  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+		  transition: opacity .2s;
+		}
+
+		/* Mouse-over effects */
+		.slider:hover {
+		  opacity: 1; /* Fully shown on mouse-over */
+		}
+
+		/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */ 
+		.slider::-webkit-slider-thumb {
+		  -webkit-appearance: none; /* Override default look */
+		  appearance: none;
+		  width: 25px; /* Set a specific slider handle width */
+		  height: 25px; /* Slider handle height */
+		  background: #000000; /* Green background */
+		  cursor: pointer; /* Cursor on hover */
+		}
+
+		.slider::-moz-range-thumb {
+		  width: 25px; /* Set a specific slider handle width */
+		  height: 25px; /* Slider handle height */
+		  background: #000000; /* Green background */
+		  cursor: pointer; /* Cursor on hover */
+		}
+	</style>
+</head>
+<div class="center">
+	<p id="textElement">A</p>
+</div>
+
+
+
+<div class="othercenter" style="position: relative">
+	<input type="range" min="1" max="1000" value="200" class="slider" id="rangeSlider" onmousemove="UpdateSliderValue()">
+	<div class="textcenter">
+		<p id="sliderValue">200</p>
+	</div>
+</div>
+
+<div class="othercenter">
+	<textarea style="width:100%" id="textArea" rows="4" cols="75" oninput="Run()"></textarea>
+</div>
+
+<script type="text/javascript">
+var myVar = null;
+var speed = 200;
+var str = "The average person reads roughly 200 to 250 words per minute. However by removing the necessity of having to move your eyes you will find out that you can read much faster. Try pasting your own text into the box below to try to read different things at different paces. The slider will take you from 1 word per minute to 1000 words per minute. See how fast you can go.";
+var split = str.split(" ");
+var index = 0;
+switchText();
+function switchText()
+{
+	var text = split[index];
+	index++;
+	if (index == split.length)
+	{
+		index = 0;
+	}
+	document.getElementById("textElement").innerHTML = text;
+	myVar = setTimeout(switchText, speed);
+}
+
+function Run()
+{
+	if (!document.getElementById("textArea").value == "")
+	{
+		split = document.getElementById("textArea").value.split(" ");
+		index = 0;
+	}
+	else
+	{
+		split = str.split(" ");
+		index = 0;
+	}
+
+
+	clearTimeout(myVar);
+	myVar = setTimeout(switchText, speed);
+}
+
+function UpdateSliderValue()
+{
+	document.getElementById("sliderValue").innerHTML = document.getElementById("rangeSlider").value;
+	speed = 60000 / document.getElementById("rangeSlider").value;
+}
+</script>
