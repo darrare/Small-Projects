@@ -12,7 +12,7 @@ namespace BuildGitPullBatchFile
         static void Main(string[] args)
         {
             string[] directories = Directory.GetDirectories(@"D:\Repositories\3020 Class Repositories");
-            using (StreamWriter sr = new StreamWriter(@"D:\Repositories\3020 Class Repositories\file.txt"))
+            using (StreamWriter sr = new StreamWriter(@"D:\Repositories\3020 Class Repositories\PullRepositories.bat"))
             {
                 for(int i = 0; i < directories.Length; i++)
                 {
