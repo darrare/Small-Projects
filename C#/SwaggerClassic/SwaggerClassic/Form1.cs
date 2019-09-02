@@ -168,6 +168,8 @@ namespace SwaggerClassic
             {
                 //Start other buttons effects
                 ConsoleLog("Less than 1/3 similar, pausing for 10 seconds before picking character.");
+                h = wow.MainWindowHandle;
+                SetForegroundWindow(h);
                 Thread.Sleep(10000);
                 ConsoleLog("Pressing the enter key to log into character");
                 keybd_event(ENTER_KEY, 0, KEY_DOWN_EVENT, 0);
@@ -296,9 +298,9 @@ namespace SwaggerClassic
                 m_Events.MouseMove += HookManager_MouseMove;
                 drawRectangleTimer.Elapsed += DrawRectangle_Tick;
 
-                //wow = Process.GetProcessesByName("Wow").FirstOrDefault(); //Wow
-                //h = wow.MainWindowHandle;
-                //SetForegroundWindow(h);
+                wow = Process.GetProcessesByName("Wow").FirstOrDefault(); //Wow
+                h = wow.MainWindowHandle;
+                SetForegroundWindow(h);
 
 
                 Button_RandomMovement.Text = "STOP";
