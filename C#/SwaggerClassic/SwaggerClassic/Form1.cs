@@ -171,12 +171,14 @@ namespace SwaggerClassic
                 h = wow.MainWindowHandle;
                 SetForegroundWindow(h);
                 Thread.Sleep(10000);
+                if (ct.IsCancellationRequested) return;
                 ConsoleLog("Pressing the enter key to log into character");
                 keybd_event(ENTER_KEY, 0, KEY_DOWN_EVENT, 0);
                 Thread.Sleep(100);
                 keybd_event(ENTER_KEY, 0, KEY_UP_EVENT, 0);
                 Thread.Sleep(1000);
                 ConsoleLog("Starting random movement function.");
+                if (ct.IsCancellationRequested) return;
                 RandomMovement();
             }
         }

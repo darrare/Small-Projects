@@ -170,6 +170,7 @@ namespace ClickRecorder
         {
             if (IsDisposed) return;
             textBoxLog.AppendText(text);
+            textBoxLog.AppendText(Environment.NewLine);
             textBoxLog.ScrollToCaret();
         }
 
