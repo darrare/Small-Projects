@@ -256,8 +256,13 @@ namespace SwaggerClassic
             if (isActive)
             {
                 ConsoleLog("Clicked Random Movement button");
+                wow = Process.GetProcessesByName(txtBx_processName.Text).FirstOrDefault(); //Wow
+                if (wow == null)
+                {
+                    ConsoleLog($"Unable to find process {txtBx_processName.Text}. Make sure you have the right name.");
+                    return;
+                }
                 ConsoleLog("You can go afk now.");
-                wow = Process.GetProcessesByName("Wow").FirstOrDefault(); //Wow
                 IntPtr h = wow.MainWindowHandle;
                 SetForegroundWindow(h);
                 cts = new CancellationTokenSource();
@@ -300,7 +305,12 @@ namespace SwaggerClassic
                 m_Events.MouseMove += HookManager_MouseMove;
                 drawRectangleTimer.Elapsed += DrawRectangle_Tick;
 
-                wow = Process.GetProcessesByName("Wow").FirstOrDefault(); //Wow
+                wow = Process.GetProcessesByName(txtBx_processName.Text).FirstOrDefault(); //Wow
+                if (wow == null)
+                {
+                    ConsoleLog($"Unable to find process {txtBx_processName.Text}. Make sure you have the right name.");
+                    return;
+                }
                 h = wow.MainWindowHandle;
                 SetForegroundWindow(h);
 

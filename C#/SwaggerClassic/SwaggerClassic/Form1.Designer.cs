@@ -39,13 +39,15 @@
             this.label2 = new System.Windows.Forms.Label();
             this.PictureBox_PixelBoxCurrent = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.txtBx_processName = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_PixelBoxOriginal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_PixelBoxCurrent)).BeginInit();
             this.SuspendLayout();
             // 
             // Button_RandomMovement
             // 
-            this.Button_RandomMovement.Location = new System.Drawing.Point(166, 276);
+            this.Button_RandomMovement.Location = new System.Drawing.Point(166, 308);
             this.Button_RandomMovement.Name = "Button_RandomMovement";
             this.Button_RandomMovement.Size = new System.Drawing.Size(148, 36);
             this.Button_RandomMovement.TabIndex = 0;
@@ -55,7 +57,7 @@
             // 
             // Button_QueuePasser
             // 
-            this.Button_QueuePasser.Location = new System.Drawing.Point(12, 276);
+            this.Button_QueuePasser.Location = new System.Drawing.Point(12, 308);
             this.Button_QueuePasser.Name = "Button_QueuePasser";
             this.Button_QueuePasser.Size = new System.Drawing.Size(148, 36);
             this.Button_QueuePasser.TabIndex = 1;
@@ -128,11 +130,30 @@
             this.label3.TabIndex = 9;
             this.label3.Text = "Current";
             // 
+            // txtBx_processName
+            // 
+            this.txtBx_processName.Location = new System.Drawing.Point(94, 276);
+            this.txtBx_processName.Name = "txtBx_processName";
+            this.txtBx_processName.Size = new System.Drawing.Size(221, 20);
+            this.txtBx_processName.TabIndex = 10;
+            this.txtBx_processName.Text = "WowClassic";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(12, 279);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(76, 13);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Process Name";
+            // 
             // SwaggerClassic
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(327, 324);
+            this.ClientSize = new System.Drawing.Size(327, 356);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.txtBx_processName);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.PictureBox_PixelBoxCurrent);
             this.Controls.Add(this.label2);
@@ -163,6 +184,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.PictureBox PictureBox_PixelBoxCurrent;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtBx_processName;
+        private System.Windows.Forms.Label label4;
     }
 }
 
