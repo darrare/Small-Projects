@@ -89,7 +89,9 @@ namespace AbilityStoneSimulator.GeneticAlgorithm
             {
                 if (seed != 0)
                     Rand = new System.Random(seed);
-                c.FitnessScore = fitnessAlgorithm(c.Genes, seed);
+                dynamic result = fitnessAlgorithm(c.Genes, seed);
+                c.FitnessScore = result.fitness;
+                c.ResultingObject = result.output;
             }
         }
 

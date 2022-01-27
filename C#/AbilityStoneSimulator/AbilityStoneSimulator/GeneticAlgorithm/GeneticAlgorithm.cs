@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AbilityStoneSimulator.GeneticAlgorithm
 {
-    public delegate double FitnessAlgorithm(double[] genes, int seed);
+    public delegate dynamic FitnessAlgorithm(double[] genes, int seed);
 
     public static class GeneticAlgorithm
     {

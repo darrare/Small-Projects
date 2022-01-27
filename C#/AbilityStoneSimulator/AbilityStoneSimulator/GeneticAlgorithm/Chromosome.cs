@@ -10,6 +10,7 @@ namespace AbilityStoneSimulator.GeneticAlgorithm
     {
         public double[] Genes { get; set; }
         public double FitnessScore { get; set; } = 0;
+        public object ResultingObject { get; set; } = null;
 
         public Chromosome(double[] genes)
         {

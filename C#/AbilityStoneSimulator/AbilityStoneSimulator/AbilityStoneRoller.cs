@@ -81,6 +81,7 @@ namespace AbilityStoneSimulator
         public RollerResult RunGeneticAlgorithm(int n, int firstGoal = 9, int secondGoal = 7)
         {
             AbilityStone stone = new AbilityStone();
+            int seed = 0;
 
             List<Chromosome> results = GeneticAlgorithm.GeneticAlgorithm.RunGeneticAlgorithm(
                 528,
@@ -92,9 +93,21 @@ namespace AbilityStoneSimulator
                 stone.Fitness,
                 1000,
                 true,
-                0);
+                seed);
 
             // Take the top 5 or so results and generate AbilityStone's with the genes to find which has consistent results.
+
+            List<dynamic> regeneratedResults = new List<dynamic>();
+            foreach (Chromosome item in results.Take(5))
+            {
+                for (int i = 0; i < 32; i++)
+                {
+                    regeneratedResults.Add(stone.Fitness(item.Genes, seed));
+                }
+            }
+
+            regeneratedResults = regeneratedResults.OrderByDescending(t => t.fitness).ToList();
+
 
             return null;
         }

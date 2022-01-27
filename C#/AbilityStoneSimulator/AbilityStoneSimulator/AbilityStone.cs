@@ -23,6 +23,17 @@ namespace AbilityStoneSimulator
 
         }
 
+        public AbilityStone DeepCopyThis()
+        {
+            AbilityStone newStone = new AbilityStone();
+            newStone.FirstGood = FirstGood.DeepCopyThis();
+            newStone.SecondGood = SecondGood.DeepCopyThis();
+            newStone.Bad = Bad.DeepCopyThis();
+
+            newStone.FinalizeStone();
+            return newStone;
+        }
+
         private void Reset()
         {
             FirstGood = new AbilityStoneEngraving();
@@ -81,7 +92,7 @@ namespace AbilityStoneSimulator
         /// </param>
         /// <param name="seed">Seed to generate based on</param>
         /// <returns></returns>
-        public double Fitness(double[] genes, int seed)
+        public dynamic Fitness(double[] genes, int seed)
         {
             if (seed != 0)
                 Random.SetSeed(seed);
@@ -151,12 +162,9 @@ namespace AbilityStoneSimulator
             // Then return the positive minus the negative, weighted. Obviously 9/7/4 is better than 8/7/2
             FinalizeStone();
             double fitness = TotalPositiveScore * 2 - MaliceScore;
-            if (fitness >= 28)
-            {
-                Console.WriteLine();
-            }
+            object output = DeepCopyThis();
             Reset();
-            return fitness;
+            return new { fitness, output, genes }; 
 
             void updatePercentageChance(bool wasSuccessful)
             {
@@ -193,6 +201,20 @@ namespace AbilityStoneSimulator
         {
             get { return Scores[i]; }
             set { Scores[i] = value; }
+        }
+
+        public AbilityStoneEngraving DeepCopyThis()
+        {
+            AbilityStoneEngraving newEngraving = new AbilityStoneEngraving();
+
+            for (int i = 0; i < Scores.Length; i++)
+            {
+                newEngraving[i] = Scores[i];
+            }
+
+            newEngraving.Counter = Counter;
+
+            return newEngraving;
         }
 
         public void SetNext(bool result)
