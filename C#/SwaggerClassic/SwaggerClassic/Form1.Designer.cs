@@ -41,6 +41,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.txtBx_processName = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.chkBx_kevStupidProof = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_PixelBoxOriginal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_PixelBoxCurrent)).BeginInit();
             this.SuspendLayout();
@@ -134,7 +135,7 @@
             // 
             this.txtBx_processName.Location = new System.Drawing.Point(94, 276);
             this.txtBx_processName.Name = "txtBx_processName";
-            this.txtBx_processName.Size = new System.Drawing.Size(221, 20);
+            this.txtBx_processName.Size = new System.Drawing.Size(109, 20);
             this.txtBx_processName.TabIndex = 10;
             this.txtBx_processName.Text = "WowClassic";
             // 
@@ -147,11 +148,22 @@
             this.label4.TabIndex = 11;
             this.label4.Text = "Process Name";
             // 
+            // chkBx_kevStupidProof
+            // 
+            this.chkBx_kevStupidProof.AutoSize = true;
+            this.chkBx_kevStupidProof.Location = new System.Drawing.Point(209, 278);
+            this.chkBx_kevStupidProof.Name = "chkBx_kevStupidProof";
+            this.chkBx_kevStupidProof.Size = new System.Drawing.Size(106, 17);
+            this.chkBx_kevStupidProof.TabIndex = 12;
+            this.chkBx_kevStupidProof.Text = "Kev Stupid Proof";
+            this.chkBx_kevStupidProof.UseVisualStyleBackColor = true;
+            // 
             // SwaggerClassic
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(327, 356);
+            this.Controls.Add(this.chkBx_kevStupidProof);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txtBx_processName);
             this.Controls.Add(this.label3);
@@ -186,6 +198,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtBx_processName;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.CheckBox chkBx_kevStupidProof;
     }
 }
 

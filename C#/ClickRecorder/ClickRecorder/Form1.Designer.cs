@@ -192,7 +192,7 @@
             this.NotificationLabel.Name = "NotificationLabel";
             this.NotificationLabel.Size = new System.Drawing.Size(183, 13);
             this.NotificationLabel.TabIndex = 21;
-            this.NotificationLabel.Text = "Press Left Alt to toggle play on repeat";
+            this.NotificationLabel.Text = "Press Right Alt to toggle play on repeat";
             // 
             // Form1
             // 

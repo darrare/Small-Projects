@@ -51,7 +51,7 @@ namespace ClickRecorder
 
             doAction = () =>
             {
-                keybd_event((byte)this.keyCode, 0, (isDown ? KEY_DOWN_EVENT : KEY_UP_EVENT), 0);
+                keybd_event((byte)this.keyCode, 0, (isDown ? 0 : KEY_UP_EVENT), 0);
             };
         }
 
@@ -108,7 +108,7 @@ namespace ClickRecorder
                 keyCode = (Keys)result.KeyCode;
                 doAction = () =>
                 {
-                    keybd_event((byte)this.keyCode, 0, (result.IsDown ? KEY_DOWN_EVENT : KEY_UP_EVENT), 0);
+                    keybd_event((byte)this.keyCode, 0, (result.IsDown ? 0 : KEY_UP_EVENT), 0);
                 };
             }
             else

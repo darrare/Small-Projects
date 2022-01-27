@@ -256,15 +256,22 @@ namespace SwaggerClassic
             if (isActive)
             {
                 ConsoleLog("Clicked Random Movement button");
-                wow = Process.GetProcessesByName(txtBx_processName.Text).FirstOrDefault(); //Wow
-                if (wow == null)
+
+                if (!chkBx_kevStupidProof.Checked)
                 {
-                    ConsoleLog($"Unable to find process {txtBx_processName.Text}. Make sure you have the right name.");
-                    return;
+                    wow = Process.GetProcessesByName(txtBx_processName.Text).FirstOrDefault(); //Wow
+                    if (wow == null)
+                    {
+                        ConsoleLog($"Unable to find process {txtBx_processName.Text}. Make sure you have the right name.");
+                        return;
+                    }
+                    IntPtr h = wow.MainWindowHandle;
+                    SetForegroundWindow(h);
+                    ConsoleLog("You can go afk now. If kev stupid proof is checked, make sure to tab into the game.");
                 }
-                ConsoleLog("You can go afk now.");
-                IntPtr h = wow.MainWindowHandle;
-                SetForegroundWindow(h);
+
+       
+
                 cts = new CancellationTokenSource();
                 ct = cts.Token;
                 timingTask = Task.Factory.StartNew(RandomMovement, cts.Token);

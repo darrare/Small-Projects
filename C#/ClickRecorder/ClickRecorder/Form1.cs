@@ -88,7 +88,7 @@ namespace ClickRecorder
 
         private void OnKeyDown_ToggleReplayMachine(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.LMenu)
+            if (e.KeyCode == Keys.RMenu)
             {
                 if (machine != null && machine.IsPlaying)
                 {
