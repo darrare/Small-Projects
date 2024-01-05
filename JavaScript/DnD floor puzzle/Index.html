@@ -1,0 +1,164 @@
+<html>
+<head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+		var currentId = null;
+        //var base_ids = ["1", "2", "3", "4", "5", "6"];
+        function toggleLight(ids) {
+            for (var id of ids) {
+                var ele = $('#' + id);
+                if (ele.attr("src") == "on.png") {
+                    ele.attr("src", "off.png");
+                }
+                else {
+                    ele.attr("src", "on.png");
+                }
+            }
+        }
+		
+		function toggleNeighbors(id) {
+			// Validate start and existing square
+			var curr = $('#' + id);
+			if (currentId == null && id < 27 || id > 29) {
+				return;
+			}
+			if (currentId != null && curr.attr("class") != "neighbor") {
+				return;
+			}
+			
+			// Trigger on black click
+			if (curr.attr("src") == "black.png") {
+				alert("LOUD BANGING SOUND! PREPARE FOR COMBAT");
+				location.reload();
+				return;
+			}
+			
+			$('#' + currentId).removeClass("current");
+			currentId = id;
+			$('#' + id).addClass("current");
+			var up = id - 5;
+			var down = id + 5;
+			var left = id - 1;
+			var right = id + 1;
+			
+			// Validation
+			if (up <= 0) { up = null;}
+			if (down >= 30 || down == 26) { down = null;}
+			if (left % 5 == 0 || left == 26) { left = null;}
+			if (right % 5 == 1 || right == 30) { right = null;}
+			
+			// Toggling
+			$("img").removeClass("neighbor");
+			if (up != null) { toggleSingle(up); }
+			if (down != null) { toggleSingle(down); }
+			if (left != null) { toggleSingle(left); }
+			if (right != null) { toggleSingle(right); }
+			
+			// Validate success condition
+			if (currentId <= 5) {
+				alert("Successfully crossed");
+			}
+		}
+
+		function toggleSingle(id) {
+			var ele = $('#' + id);
+			if (ele.attr("src") == "black.png") {
+				ele.attr("src", "grey.png");
+			}
+			else {
+				ele.attr("src", "black.png");
+			}
+			$(ele).addClass("neighbor");
+		}
+    </script>
+    <style>
+		.row img {
+			padding: 0;
+			width:10%;
+		}
+		.current {
+			border-style: solid;
+			border-color: red;
+		}
+		.neighbor {
+			border-style: solid;
+			border-color: blue;
+		}
+    </style>
+</head>
+<body>
+	<div class="row" style="margin: 1%;">
+		<div class="col-5" style="text-align: center;">
+			<p>You enter a hallway with skeletal warrior statues standing dormant along the walls. 
+			You see a hall filled with pressure plates of grey or black color and a magical aura festering. 
+			Inscribed on the floor before the first plate, you read:</p>
+			
+			<i>In shadows deep where echoes weave,<br />
+			A puzzle hidden, secrets to retrieve.<br />
+			A grid of plates, both black and grey,<br />
+			In silent dance, they guide your way.<br />
+			<br />
+			Step not on black, the echoes fear,<br />
+			For noise shall wake all that lies near.<br />
+			The neighbors act when colors change,<br />
+			A dance of silence, a cryptic range.<br />
+			<br />
+			But tread with care, for every sound,<br />
+			Awakens guardians all around.<br />
+			Choose your path with steps discreet,<br />
+			The restless echoes shall repeat.<br />
+			<br />
+			Black to grey, and grey to black,<br />
+			A mirrored dance upon this track.<br />
+			Unlock the whispers, traverse the maze,<br />
+			In silent steps, reveal the ways.<br /></i>
+			<br />
+			<p>Your first options are the three bottom grey plates</p>
+			
+		</div>
+		<div class="col-6">
+			<div class="row d-flex align-items-center justify-content-center">
+				<img id="1" src="grey.png" onclick="toggleNeighbors(1)" />
+				<img id="2" src="black.png" onclick="toggleNeighbors(2)" />
+				<img id="3" src="grey.png" onclick="toggleNeighbors(3)" />
+				<img id="4" src="black.png" onclick="toggleNeighbors(4)" />
+				<img id="5" src="grey.png" onclick="toggleNeighbors(5)" />
+			</div>
+			<div class="row d-flex align-items-center justify-content-center">
+				<img id="6" src="black.png" onclick="toggleNeighbors(6)" />
+				<img id="7" src="black.png" onclick="toggleNeighbors(7)" />
+				<img id="8" src="black.png" onclick="toggleNeighbors(8)" />
+				<img id="9" src="grey.png" onclick="toggleNeighbors(9)" />
+				<img id="10" src="grey.png" onclick="toggleNeighbors(10)" />
+			</div>
+			<div class="row d-flex align-items-center justify-content-center">
+				<img id="11" src="grey.png" onclick="toggleNeighbors(11)" />
+				<img id="12" src="grey.png" onclick="toggleNeighbors(12)" />
+				<img id="13" src="grey.png" onclick="toggleNeighbors(13)" />
+				<img id="14" src="black.png" onclick="toggleNeighbors(14)" />
+				<img id="15" src="black.png" onclick="toggleNeighbors(15)" />
+			</div>
+			<div class="row d-flex align-items-center justify-content-center">
+				<img id="16" src="black.png" onclick="toggleNeighbors(16)" />
+				<img id="17" src="grey.png" onclick="toggleNeighbors(17)" />
+				<img id="18" src="black.png" onclick="toggleNeighbors(18)" />
+				<img id="19" src="grey.png" onclick="toggleNeighbors(19)" />
+				<img id="20" src="black.png" onclick="toggleNeighbors(20)" />
+			</div>
+			<div class="row d-flex align-items-center justify-content-center">
+				<img id="21" src="grey.png" onclick="toggleNeighbors(21)" />
+				<img id="22" src="black.png" onclick="toggleNeighbors(22)" />
+				<img id="23" src="black.png" onclick="toggleNeighbors(23)" />
+				<img id="24" src="black.png" onclick="toggleNeighbors(24)" />
+				<img id="25" src="grey.png" onclick="toggleNeighbors(25)" />
+			</div>
+			<div class="row d-flex align-items-center justify-content-center">
+				<img id="27" src="grey.png" onclick="toggleNeighbors(27)" />
+				<img id="28" src="grey.png" onclick="toggleNeighbors(28)" />
+				<img id="29" src="grey.png" onclick="toggleNeighbors(29)" />
+			</div>			
+		</div>
+	</div>
+</body>
+</html>
