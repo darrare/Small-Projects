@@ -71,7 +71,7 @@ namespace IdleonTools.Tools
             {
                 await Task.Factory.StartNew(() =>
                 {
-                    Logger.StateToForm("Mouse down, awaiting color...");
+                    //Logger.StateToForm("Mouse down, awaiting color...");
                     Point cursor = new Point();
                     Color result = Color.Black;
                     //var watch = System.Diagnostics.Stopwatch.StartNew();
@@ -90,9 +90,9 @@ namespace IdleonTools.Tools
                         }
                     } while (validTriggerColors.All(t => !areColorsIdenticalRGB(t, result))) ;
 
-                    Logger.StateToForm("Color found, clicking...");
+                    //Logger.StateToForm("Color found, clicking...");
                     mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, cursor.X, cursor.Y, 0, 0);
-                    Logger.StateToForm("Awaiting mouse down...");
+                    //Logger.StateToForm("Awaiting mouse down...");
                 }, cancellationTokenSource.Token);
             }
             catch (Exception)

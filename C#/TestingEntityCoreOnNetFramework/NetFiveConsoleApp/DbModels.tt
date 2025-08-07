@@ -1,0 +1,11 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="NetStandard" #>
+<#@ assembly name="D:\Repositories\Small Projects\C#\TestingEntityCoreOnNetFramework\NetFiveConsoleApp\bin\Debug\net5.0\NetFiveConsoleApp.dll" #>
+<#@ assembly name="D:\Repositories\Small Projects\C#\TestingEntityCoreOnNetFramework\NetFiveConsoleApp\bin\Debug\net5.0\EntityCoreNetStandardLibrary.dll" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+
+<#= NetFiveConsoleApp.Program.GetDbModels() #>

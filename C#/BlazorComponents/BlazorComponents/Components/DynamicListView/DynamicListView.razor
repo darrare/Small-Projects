@@ -1,0 +1,35 @@
+﻿@typeparam T
+@using BlazorComponents.Components.DynamicListView
+
+<table class="table table-hover table-striped" oncontextmenu="return @(AllowBrowserRightCLickMenu ? "true" : "false");">
+    <thead>
+        <tr>
+            @foreach (var column in Columns)
+            {
+                <th @onclick="() => SortBy(column)" style="cursor: pointer; width: @column.Width">
+                    @column.Header
+                    <span style="visibility: @(SortColumn == column.Header ? "visible" : "hidden")">
+                        @(SortDescending ? "▼" : "▲")
+                    </span>
+                </th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @if (Items != null)
+        {
+            @foreach (var item in Items)
+            {
+                bool isSelected = SelectedRows.Contains(item);
+                <tr class="@(isSelected ? "table-active" : "")">
+                    @foreach (var col in Columns)
+                    {
+                        <td @onclick="(e) => HandleClick(item, col, e)">
+                            @col.ValueSelector(item)
+                        </td>
+                    }
+                </tr>
+            }
+        }
+    </tbody>
+</table>

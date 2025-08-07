@@ -1,0 +1,59 @@
+﻿@using BlazorComponents.Components.DynamicListView;
+@page "/"
+@rendermode InteractiveServer
+
+<PageTitle>Home Test Page</PageTitle>
+
+<DynamicListView T="User"
+                 Items="users"
+                 Columns="userColumns"
+                 OnClick="HandleUserClick" />
+
+
+@code {
+    private List<User> users = new()
+    {
+        new User { Id = 1, Name = "Alice", Email = "alice@example.com" },
+        new User { Id = 2, Name = "Bob", Email = "bob@example.com" }
+    };
+
+    private List<ColumnDefinition<User>> userColumns = new()
+    {
+        new ColumnDefinition<User>
+        {
+            Header = "ID",
+            ValueSelector = u => u.Id
+        },
+        new ColumnDefinition<User>
+        {
+            Header = "Name",
+            ValueSelector = u => u.Name
+        },
+        new ColumnDefinition<User>
+        {
+            Header = "Email",
+            ValueSelector = u => u.Email
+        }
+    };
+
+    private void HandleUserClick(ClickEventArgs<User> e)
+    {
+        if (e.MouseEventArgs.Button == 0)
+        {
+            //Console.WriteLine($"Left clicked on user {e.Item.Name}");
+            Console.WriteLine($"Left clicked on column {e.Column.Header} with value {e.Column.ValueSelector(e.Item)}");
+        }
+        else if (e.MouseEventArgs.Button == 2)
+        {
+            //Console.WriteLine($"Right clicked on user {e.Item.Name}");
+            Console.WriteLine($"Right clicked on column {e.Column.Header} with value {e.Column.ValueSelector(e.Item)}");
+        }
+    }
+
+    public class User
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = "";
+        public string Email { get; set; } = "";
+    }
+}
