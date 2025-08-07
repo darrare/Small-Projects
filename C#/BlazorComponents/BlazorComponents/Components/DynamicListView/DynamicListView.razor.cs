@@ -14,8 +14,8 @@ namespace BlazorComponents.Components.DynamicListView
 
     public partial class DynamicListView<T> : ComponentBase
     {
-        [Parameter] public List<T> Items { get; set; } = new();
-        [Parameter] public List<ColumnDefinition<T>> Columns { get; set; } = new();
+        [Parameter] [EditorRequired] public List<T> Items { get; set; } = new();
+        [Parameter] [EditorRequired] public List<ColumnDefinition<T>> Columns { get; set; } = new();
         [Parameter] public int DefaultSortColumnIndex { get; set; } = 0;
         [Parameter] public SelectionMode SelectionMode { get; set; } = SelectionMode.NONE;
         [Parameter] public EventCallback<ClickEventArgs<T>> OnClick { get; set; }
