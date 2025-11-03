@@ -9,8 +9,6 @@
         StartOfWeek = startOfWeek;
         Days = days;
     }
-
-    public bool IsDayInMonth(DateTime day, int month) => day.Month == month;
 }
 
 public static class DateTimeExtensions

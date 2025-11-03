@@ -1,50 +1,52 @@
-﻿.scheduler-container {
-    background-color: var(--bs-body-bg);
-    color: var(--bs-body-color);
+﻿/* Hide scrollbar but keep scrolling */
+.scheduler-container .overflow-auto {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE 10+ */
+    overflow-y: auto;
 }
 
-.day {
-    flex: 1;
-}
-
-.weekdays-header {
-    z-index: 10; /* so it stays above week rows if overlapping */
-    background-color: var(--bs-body-bg);
-    font-weight: 600;
-}
-
-    .weekdays-header div {
-        padding: 0.25rem 0;
-        border-bottom: 1px solid var(--bs-border-color);
+    /* Chrome, Edge, Safari */
+    .scheduler-container .overflow-auto::-webkit-scrollbar {
+        width: 0px;
+        background: transparent;
     }
 
+.weekdays-header div {
+    padding: 0.25rem 0;
+    border-bottom: 1px solid var(--bs-border-color);
+}
+
 .week-row {
-    min-height: 150px; /* match Virtualize ItemSize */
+    min-height: 150px; /* matches ItemSize */
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    padding: 0px !important;
 }
 
 .day-cell {
-    padding: 0.5rem;
     border-radius: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
 }
-
-    .day-cell.current-month {
-        background-color: #0094ff;
-    }
-
-    .day-cell:not(.current-month) {
-        background-color: #808080;
-        color: var(--bs-secondary-text);
-    }
-
-    .day-cell:hover {
-        background-color: var(--bs-secondary-bg-subtle);
-    }
 
     .day-cell.today {
         background-color: var(--bs-primary-bg-subtle);
         font-weight: 600;
     }
 
+    .day-cell.current-month {
+        background-color: #0094ff;
+    }
+
+    .day-cell.text-muted {
+        color: var(--bs-secondary-text);
+    }
+
+    .day-cell:hover {
+        background-color: var(--bs-light);
+    }
 
 .event-dot {
     width: 6px;
@@ -57,4 +59,3 @@
 .day-cell.has-event .event-dot {
     display: block;
 }
-

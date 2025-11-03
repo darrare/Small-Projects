@@ -15,7 +15,7 @@
         return null;
     };
 
-    container.addEventListener('scroll', function () {
+    container.addEventListener('scroll', () => {
         if (!ticking) {
             window.requestAnimationFrame(() => {
                 const iso = getVisibleWeek();

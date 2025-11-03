@@ -5,7 +5,7 @@
     <!-- Month / Year Header -->
     <div class="scheduler-header bg-body-tertiary border-bottom p-3 d-flex justify-content-between align-items-center sticky-top">
         <div>
-            <h4 class="mb-0">@CurrentMonthName</h4>
+            <h4 class="mb-0">@GetMonthName(CurrentMonth)</h4>
             <small>@CurrentYear</small>
         </div>
         <div>
@@ -25,7 +25,7 @@
     <div @ref="_scrollContainer" class="flex-grow-1 overflow-auto">
         <Virtualize Context="week" ItemsProvider="LoadWeeks" ItemSize="150" TItem="WeekViewModel">
             <ItemContent>
-                <div class="week-row d-grid px-1" style="grid-template-columns: repeat(7, 1fr);" data-week-start="@week.StartOfWeek.ToString("o")">
+                <div class="week-row d-grid px-2" style="grid-template-columns: repeat(7, 1fr);" data-week-start="@week.StartOfWeek.ToString("o")">
                     @foreach (var day in week.Days)
                     {
                         <div class="@GetDayCss(day)">
@@ -39,39 +39,19 @@
     </div>
 </div>
 
-
 @code {
     private ElementReference _scrollContainer;
-    private string CurrentMonthName = DateTime.Now.ToString("MMMM");
+    private int CurrentMonth = DateTime.Now.Month;
     private int CurrentYear = DateTime.Now.Year;
-
-    // Big virtual list that maps index -> week offset around "today"
-    private const int TOTAL_WEEKS = 200_000;       // large, but finite
-    private readonly int CENTER_INDEX = TOTAL_WEEKS / 2;
-    private readonly DateTime _baseDate = DateTime.Today;
 
     private IJSObjectReference _jsModule;
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            _jsModule = await JS.InvokeAsync<IJSObjectReference>(
-                "import", "./Components/Scheduler/Scheduler.razor.js");
+    // Virtualize configuration
+    private const int TOTAL_WEEKS = 10000;
+    private readonly int CENTER_INDEX = TOTAL_WEEKS / 2;
+    private readonly DateTime _baseDate = DateTime.Today;
 
-            var dotnetRef = DotNetObjectReference.Create(this);
-            await _jsModule.InvokeVoidAsync("initializeScrollListener", _scrollContainer, dotnetRef);
-            await _jsModule.InvokeVoidAsync("scrollToIndex", _scrollContainer, CENTER_INDEX, 110);
-        }
-    }
-
-    public async ValueTask DisposeAsync()
-    {
-        if (_jsModule != null)
-            await _jsModule.DisposeAsync();
-    }
-
-    // ItemsProvider: produce Weeks for the requested index range
+    // Load weeks for Virtualize
     private async ValueTask<ItemsProviderResult<WeekViewModel>> LoadWeeks(ItemsProviderRequest request)
     {
         var items = new List<WeekViewModel>(request.Count);
@@ -81,16 +61,15 @@
         for (int i = 0; i < count; i++)
         {
             int index = startIndex + i;
-            // Translate index into an offset in weeks from center
-            int offsetFromTodayInWeeks = index - CENTER_INDEX;
-            var week = GetWeekForOffset(offsetFromTodayInWeeks);
-            items.Add(week);
+            int offsetWeeks = index - CENTER_INDEX;
+            items.Add(GetWeekForOffset(offsetWeeks));
         }
 
         return new ItemsProviderResult<WeekViewModel>(items, TOTAL_WEEKS);
     }
 
-    // offset = 0 -> week containing _baseDate
+    private string GetMonthName(int month) => CultureInfo.CurrentCulture.DateTimeFormat.MonthNames[month - 1];
+
     private WeekViewModel GetWeekForOffset(int weekOffset)
     {
         var target = _baseDate.AddDays(weekOffset * 7);
@@ -99,11 +78,37 @@
         return new WeekViewModel(start, days);
     }
 
+    private string GetDayCss(DateTime day)
+    {
+        var classes = "day-cell text-center py-2";
+        if (day.Month == CurrentMonth && day.Year == CurrentYear) classes += " current-month";
+        else classes += " text-muted";
+        if (day.Date == DateTime.Today) classes += " today"; // extra class
+
+        return classes;
+    }
+
     private async Task GoToToday()
     {
-        // If you want to programmatically jump to the center (today),
-        // use JS interop to set scrollTop to center index * itemHeight
-        await _jsModule.InvokeVoidAsync("scrollToIndex", _scrollContainer, CENTER_INDEX, 110);
+        if (_jsModule != null)
+        {
+            await _jsModule.InvokeVoidAsync("scrollToIndex", _scrollContainer, CENTER_INDEX, 150);
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _jsModule = await JS.InvokeAsync<IJSObjectReference>("import", "./Components/Scheduler/Scheduler.razor.js");
+            var dotnetRef = DotNetObjectReference.Create(this);
+
+            // Initialize month header updates
+            await _jsModule.InvokeVoidAsync("initializeScrollListener", _scrollContainer, dotnetRef);
+
+            // Scroll to today initially
+            await _jsModule.InvokeVoidAsync("scrollToIndex", _scrollContainer, CENTER_INDEX, 150);
+        }
     }
 
     [JSInvokable]
@@ -111,22 +116,11 @@
     {
         if (DateTime.TryParse(isoWeekStart, null, DateTimeStyles.RoundtripKind, out var visibleWeekStart))
         {
-            CurrentMonthName = visibleWeekStart.ToString("MMMM", CultureInfo.InvariantCulture);
-            CurrentYear = visibleWeekStart.Year;
+            // 10 days seems like the right offset so that the most 
+            // visible month is correctly marked as the current month
+            CurrentMonth = visibleWeekStart.AddDays(10).Month;
+            CurrentYear = visibleWeekStart.AddDays(10).Year;
             StateHasChanged();
         }
     }
-
-    private string GetDayCss(DateTime day)
-    {
-        string[] months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        var classes = "day-cell text-center py-2";
-        if (months[day.Month - 1] == CurrentMonthName && day.Year == CurrentYear) classes += " current-month";
-        else classes += " text-muted";
-        if (day.Date == DateTime.Today) classes += " today"; // extra class
-
-        return classes;
-    }
-
-
 }
