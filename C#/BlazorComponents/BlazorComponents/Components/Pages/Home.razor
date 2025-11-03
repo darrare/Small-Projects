@@ -4,8 +4,51 @@
 
 <PageTitle>Home Test Page</PageTitle>
 
-<Scheduler></Scheduler>
+<Scheduler Events="events"></Scheduler>
 
 @code {
+    List<Event> events = GenerateRandomEvents(100, DateTime.Now.AddMonths(-3), DateTime.Now.AddMonths(3), 1234);
 
+    
+
+    private static readonly string[] SampleTitles = new[]
+    {
+        "Meeting", "Call", "Lunch", "Workout", "Project", "Deadline", "Birthday", "Reminder"
+    };
+
+    private static readonly string[] SampleColors = new[]
+    {
+        "#FF5733", "#33C3FF", "#9B59B6", "#27AE60", "#F1C40F", "#E67E22"
+    };
+
+    public static List<Event> GenerateRandomEvents(int count, DateTime startRange, DateTime endRange, int seed = -1)
+    {
+        Random _rng = seed == -1 ? new Random() : new Random(seed);
+        var events = new List<Event>();
+
+        for (int i = 0; i < count; i++)
+        {
+            // Random start date between startRange and endRange
+            int totalDays = (endRange - startRange).Days;
+            var start = startRange.AddDays(_rng.Next(totalDays));
+
+            // Random duration 1–5 days
+            int duration = _rng.Next(1, 6);
+            var end = start.AddDays(duration - 1);
+            if (end > endRange) end = endRange;
+
+            var ev = new Event
+                {
+                    StartDate = start,
+                    EndDate = end,
+                    Title = SampleTitles[_rng.Next(SampleTitles.Length)],
+                    Description = "Random event",
+                    Color = SampleColors[_rng.Next(SampleColors.Length)]
+                };
+
+            events.Add(ev);
+        }
+
+        return events;
+    }
 }

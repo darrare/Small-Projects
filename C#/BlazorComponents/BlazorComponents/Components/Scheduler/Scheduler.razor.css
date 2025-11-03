@@ -24,11 +24,10 @@
 }
 
 .day-cell {
-    border-radius: 0px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
+    border-radius: 0px;
+    border: 1px solid var(--bs-border-color);
 }
 
     .day-cell.today {
@@ -48,14 +47,28 @@
         background-color: var(--bs-light);
     }
 
-.event-dot {
-    width: 6px;
-    height: 6px;
-    background-color: var(--bs-primary);
-    border-radius: 50%;
-    display: none;
+.day-cell-header {
+    height: 24px; /* or whatever fits */
+    background-color: var(--bs-light);
+    border-bottom: 1px solid var(--bs-border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.day-cell.has-event .event-dot {
-    display: block;
+.week-event {
+    height: 22px;
+    border-radius: 0px;
+    border-left: 1px solid var(--bs-border-color);
+    border-right: 1px solid var(--bs-border-color);
+    color: white;
+    font-size: 0.75rem;
+    padding-left: 2px;
+    padding-right: 2px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    z-index: 2;
 }

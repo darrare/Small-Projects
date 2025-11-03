@@ -9,7 +9,7 @@
             <small>@CurrentYear</small>
         </div>
         <div>
-            <button class="btn btn-sm btn-outline-secondary" @onclick="GoToToday">Today</button>
+            <button class="btn btn-sm btn-outline-secondary" @onclick="() => GoToDate(DateTime.Today)">Today</button>
         </div>
     </div>
 
@@ -25,12 +25,28 @@
     <div @ref="_scrollContainer" class="flex-grow-1 overflow-auto">
         <Virtualize Context="week" ItemsProvider="LoadWeeks" ItemSize="150" TItem="WeekViewModel">
             <ItemContent>
-                <div class="week-row d-grid px-2" style="grid-template-columns: repeat(7, 1fr);" data-week-start="@week.StartOfWeek.ToString("o")">
+                <div class="week-row d-grid px-2 position-relative" style="grid-template-columns: repeat(7, 1fr);" data-week-start="@week.StartOfWeek.ToString("o")">
+                    <!-- Event bars -->
+                    @foreach (var ev in week.Events)
+                    {
+                        <div class="week-event position-absolute"
+                             style="
+                                left: @(ev.StartIndex * (100.0 / 7))%;
+                                width: @((ev.EndIndex - ev.StartIndex + 1) * (100.0 / 7))%;
+                                background-color: @ev.Event.Color;
+                                top: @(25 + ev.TopOffset * 22)px;">
+                            @ev.Event.Title
+                        </div>
+                    }
+
+                    <!-- Day cells -->
                     @foreach (var day in week.Days)
                     {
                         <div class="@GetDayCss(day)">
-                            <div class="fw-semibold">@day.Day</div>
-                            <div class="event-dot mt-1"></div>
+                            <!-- Day Header -->
+                            <div class="day-cell-header fw-semibold text-center">
+                                @(day.Day == 1 ? $"{day.ToString("MMMM")} {day.Day}" : $"{day.Day}")
+                            </div>
                         </div>
                     }
                 </div>
@@ -43,6 +59,9 @@
     private ElementReference _scrollContainer;
     private int CurrentMonth = DateTime.Now.Month;
     private int CurrentYear = DateTime.Now.Year;
+
+    [Parameter]
+    public List<Event> Events { get; set; }
 
     private IJSObjectReference _jsModule;
 
@@ -75,12 +94,13 @@
         var target = _baseDate.AddDays(weekOffset * 7);
         var start = target.StartOfWeek(DayOfWeek.Sunday);
         var days = Enumerable.Range(0, 7).Select(d => start.AddDays(d)).ToList();
-        return new WeekViewModel(start, days);
+        return new WeekViewModel(start, days, Events);
     }
+
 
     private string GetDayCss(DateTime day)
     {
-        var classes = "day-cell text-center py-2";
+        var classes = "day-cell text-center";
         if (day.Month == CurrentMonth && day.Year == CurrentYear) classes += " current-month";
         else classes += " text-muted";
         if (day.Date == DateTime.Today) classes += " today"; // extra class
@@ -88,11 +108,20 @@
         return classes;
     }
 
-    private async Task GoToToday()
+    private async Task GoToDate(DateTime date)
     {
         if (_jsModule != null)
         {
-            await _jsModule.InvokeVoidAsync("scrollToIndex", _scrollContainer, CENTER_INDEX, 150);
+            // Calculate how many weeks the target date is from the base date
+            int weekOffset = (int)((date.Date - _baseDate).TotalDays / 7);
+
+            // Translate to Virtualize index
+            int targetIndex = CENTER_INDEX + weekOffset;
+
+            await _jsModule.InvokeVoidAsync("scrollToIndex", _scrollContainer, targetIndex, 150);
+
+            CurrentMonth = date.AddDays(10).Month;
+            CurrentYear = date.AddDays(10).Year;
         }
     }
 
