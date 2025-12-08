@@ -4,7 +4,7 @@
 
 <PageTitle>Home Test Page</PageTitle>
 
-<Scheduler Events="events"></Scheduler>
+<GcsScheduler Events="events"></GcsScheduler>
 
 @code {
     List<Event> events = GenerateRandomEvents(100, DateTime.Now.AddMonths(-3), DateTime.Now.AddMonths(3), 1234);
